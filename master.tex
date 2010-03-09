@@ -1,0 +1,65 @@
+\documentclass[final,a4wide,11pt]{report}
+\usepackage[hangul]{kotex}
+\usepackage{a4wide}
+\usepackage{pdfsync}
+\usepackage{ifpdf}
+\ifpdf
+  \usepackage[unicode,pdftex,colorlinks]{hyperref}
+  \input glyphtounicode\pdfgentounicode=1
+\else
+  \usepackage[unicode,divpdfm,colorlinks]{hyperref}
+\fi
+
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
+
+\usepackage{amsmath, amssymb}
+\usepackage{graphics}
+\usepackage{listings}
+
+\usepackage{graphicx}
+\graphicspath{{./res/}}
+
+\input{macro.tex}
+
+\title{
+\textsc{Programming in Haskell}\vspace{15pt}\\
+\includegraphics[scale=0.9]{cover}\\
+\textsf{연습문제 해답}\\
+}
+\author{
+\href{mailto:scjung@pav.hanyang.ac.kr}{정승철} \\
+\href{http://pav.hanyang.ac.kr}{한양대학교 프로그램 분석검증 연구실}
+}
+\date{
+마지막 고침\\
+\today
+}
+
+\newcommand{\SCHEME}[0]{\textsf{Scheme}}
+\newcommand{\OCAML}[0]{\textsf{Objective-Caml}}
+
+\newcommand{\exercise}[1]{%
+\vspace{1em}\section*{Exercise #1}%
+\addcontentsline{toc}{section}{Exercise #1}%
+}
+
+\newcounter{myenumi}
+\newenvironment{MyEnum}
+  {\begin{list}{\alph{myenumi}.}%
+      {\setlength\leftmargin{0pt}%
+       \usecounter{myenumi}}}%
+  {\end{list}}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\input{ch01}
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

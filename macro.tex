@@ -1,0 +1,108 @@
+\newcommand{\tit}[0]{\textit}
+\newcommand{\tsf}[0]{\textsf}
+\newcommand{\ttt}[0]{\texttt}
+\newcommand{\tsc}[0]{\textsc}
+\newcommand{\tbf}[0]{\textbf}
+\newcommand{\TT}[0]{\texttt}
+
+\newcommand{\mbb}[0]{\mathbb}
+\newcommand{\mcal}[0]{\mathcal}
+
+%%%
+%%% Arrows
+%%%
+\newcommand{\ra}[0]{\rightarrow}
+\newcommand{\Ra}[0]{\Rightarrow}
+\newcommand{\rhu}[0]{\rightharpoonup}
+\newcommand{\la}[0]{\leftarrow}
+\newcommand{\La}[0]{\Leftarrow}
+\newcommand{\Lra}[0]{\Leftrightarrow}
+\newcommand{\IFF}[0]{\Longleftrightarrow}
+
+%%%
+%%% Quotes
+%%%
+\newcommand{\ql}{\textquoteleft}
+\newcommand{\qr}{\textquoteright}
+\newcommand{\Ql}{\textquotedblleft}
+\newcommand{\Qr}{\textquotedblright}
+
+\newcommand{\PAIR}[2]{\langle #1,#2 \rangle}
+
+\newcommand{\FLR}[1]{\lfloor #1 \rfloor}
+\newcommand{\CEIL}[1]{\lceil #1 \rceil}
+
+\newcommand{\bs}{\backslash}
+
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\CAS}[1]{[\![#1]\!]}
+
+\newcommand{\URL}[1]{\href{#1}{\texttt{#1}}}
+\newcommand{\EML}[1]{\href{mailto:#1}{\texttt{#1}}}
+
+\newcommand{\KOEN}[2]{$\text{#1}^{\text{#2}}$}
+
+\newcommand{\TODO}{\noindent\textcolor{red}{\framebox[2\width][c]{\texttt{TODO}}}}
+
+\newcommand{\QED}{\hfill \ensuremath{\Box}}
+
+%%% Beamer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newenvironment{blt}{\begin{itemize}\item}{\end{itemize}}
+\newcommand{\ftitle}[1]{\frametitle{\textsf{#1}}}
+
+
+%%% drawing %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand\HR[2][2]{\rule[#1pt]{#2}{0.4pt}}
+
+
+%%% fancyvrb %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeatletter
+\@ifpackageloaded{fancyvrb}
+{
+\DefineVerbatimEnvironment{code}%
+  {Verbatim}{baselinestretch=1.0,fontsize=\small,numbers=left}
+}
+{}
+\makeatother
+
+\makeatletter
+\@ifpackageloaded{listings}
+{
+\lstset{
+  basicstyle=\small\ttfamily,
+  keywordstyle=\ttfamily\bfseries,
+  commentstyle=\color[gray]{0.4},
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=10pt,
+}
+\lstdefinelanguage{Scheme}[]{Lisp}
+  {keywords={define,if,cond,else,and,or,not}
+  }
+\newcommand{\scheme}[2][1]{
+  \lstinputlisting[language=Scheme,firstline=#1]{#2}
+}
+\newcommand{\schemepart}[3]{
+\lstinputlisting[language=Scheme,firstline=#2,lastline=#3]{#1}
+}
+\newcommand{\ocaml}[2][1]{
+  \lstinputlisting[language={[Objective]Caml},firstline=#1]{#2}
+}
+\newcommand{\ocamlpart}[3]{
+\lstinputlisting[language={[Objective]Caml},firstline=#2,lastline=#3]{#1}
+}
+}
+{}
+\makeatother
+
+%%% graphics %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\imgfile}[3]{
+\begin{figure}[#2]
+  \centering
+  \includegraphics[scale=#3]{#1}
+\end{figure}
+}
