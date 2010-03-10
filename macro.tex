@@ -94,6 +94,12 @@
 \newcommand{\ocamlpart}[3]{
 \lstinputlisting[language={[Objective]Caml},firstline=#2,lastline=#3]{#1}
 }
+\newcommand{\haskell}[2][1]{
+  \lstinputlisting[language=Haskell,firstline=#1]{#2}
+}
+\newcommand{\haskellpart}[3]{
+\lstinputlisting[language=Haskell,firstline=#2,lastline=#3]{#1}
+}
 }
 {}
 \makeatother
