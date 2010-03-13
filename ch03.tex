@@ -1,0 +1,46 @@
+\chapter{\Large{Types and Classes}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{3.1}
+
+\begin{itemize}
+\item \texttt{['a', 'b', 'c'] :: [Char]}
+\item \texttt{('a', 'b', 'c') :: (Char, Char, Char)}
+\item \texttt{[(False, '0'), (True, '1')] :: [(Bool, Char)]}
+\item \texttt{([False, True], ['0', '1']) :: ([Bool], [Char])}
+\item \texttt{[tail, init, reverse] :: [[a] -> [a]]}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{3.2}
+
+\begin{itemize}
+\item \texttt{second :: [a] -> a}
+\item \texttt{swap :: (a, b) -> (b, a)}
+\item \texttt{pair :: a -> b -> (a, b)}
+\item \texttt{double :: Num a => a -> a}
+\item \texttt{palindrome xs :: Eq a => [a] -> Bool}
+\item \texttt{twice f x :: (a -> a) -> a -> a}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{3.3}
+
+(생략)
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{3.4}
+
+어떤 두 함수가 같은 인자에 대해 같은 결과를 내놓을 때, 그 둘이 같은 함수라고
+말한다고 하자. 이러한 규칙에 따라 두 함수가 같음을 비교하기 위해서는 우선
+가능한 모든 인자에 대해 같은 결과를 내놓는지 비교해야 한다. 하지만 대부분의
+경우 가능한 인자수는 너무나 많기 때문에, 이는 현실적으로 불가능하다. 게다가 어떤
+훌륭한 프로그램이 존재하여 모든 인자에 대한 결과가
+같음을 빠르게 비교할 수 있다고 하여도, 계산이 끝나지 않는 함수가 존재할 수
+있으므로 여전히 이러한 함수에 대해서는 결과를 얻을 수 없다.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "master"
+%%% End: 
