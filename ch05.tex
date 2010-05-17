@@ -41,10 +41,10 @@ Prelude> concat [[(x, y) |  y <- [4, 5, 6]] | x <- [1, 2, 3]]
 `\texttt{let2int}'를 대문자도 처리할 수 있도록 수정한다. 대문자는 알파벳
 순으로 0에서 25사이의 수를 부여받고, 소문자는 그 다음 26에서 51사이의 수를
 부여받는다.
-\haskellpart{./src/ch05-ex08.hs}{13}{19}
+\haskellpart{./src/ch05-ex08.hs}{16}{22}
 
 가능한 문자가 총 52개이므로 이에 따라 `\texttt{shift}' 함수도 수정한다.
-\haskellpart{./src/ch05-ex08.hs}{21}{23}
+\haskellpart{./src/ch05-ex08.hs}{24}{27}
 
 이제 기존의 `\texttt{encode}' 함수를 사용하여 대문자가 포함된 문장도 암호화할
 수 있다. 다음은 대소문자가 포함된 문장을 암호화해 본 것이다.
