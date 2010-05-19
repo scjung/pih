@@ -1,0 +1,208 @@
+\chapter{\Large{Recursive functions}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.1}
+\haskell{./src/ch06-ex01.hs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.2}
+\begin{itemize}
+\item $length~[1,2,3]$
+  \begin{align*}
+      & length~[1,2,3] \\
+    = & \qquad \{~ \text{applying}~length ~\} \\
+      & 1 + length~[2,3] \\
+    = & \qquad \{~ \text{applying}~length ~\} \\
+      & 1 + (1 + length~[3]) \\
+    = & \qquad \{~ \text{applying}~length ~\} \\
+      & 1 + (1 + (1 + length~[])) \\
+    = & \qquad \{~ \text{applying}~length ~\} \\
+      & 1 + (1 + (1 + 0)) \\
+    = & \qquad \{~ \text{applying}~+ ~\} \\
+      & 1 + (1 + 1) \\
+    = & \qquad \{~ \text{applying}~+ ~\} \\
+      & 1 + 2 \\
+    = & \qquad \{~ \text{applying}~+ ~\} \\
+      & 3
+  \end{align*}
+\item $drop~3~[1,2,3,4,5]$
+  \begin{align*}
+      & drop~3~[1,2,3,4,5] \\
+    = & \qquad \{~ \text{applying}~drop ~\} \\
+      & drop~2~[2,3,4,5] \\
+    = & \qquad \{~ \text{applying}~drop ~\} \\
+      & drop~1~[3,4,5] \\
+    = & \qquad \{~ \text{applying}~drop ~\} \\
+      & drop~0~[4,5] \\
+    = & \qquad \{~ \text{applying}~drop ~\} \\
+      & [4,5]
+  \end{align*}
+\item $init~[1,2,3]$
+  \begin{align*}
+      & init~[1,2,3] \\
+    = & \qquad \{~ \text{applying}~init ~\} \\
+      & 1:init~[2,3] \\
+    = & \qquad \{~ \text{applying}~init ~\} \\
+      & 1:(2:init~[3]) \\
+    = & \qquad \{~ \text{applying}~init ~\} \\
+      & 1:(2:[]) \\
+    = & \qquad \{~ \text{applying}~: ~\} \\
+      & 1:[2] \\
+    = & \qquad \{~ \text{applying}~: ~\} \\
+      & [1,2]
+  \end{align*}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.3}
+다음은 구현된 코드이다. 대부분 \texttt{Prelude}에 정의된 함수와 이름 충돌이
+발생하는데, 함수 이름 끝에 따옴표를 붙이거나 \texttt{Main} 모듈을 명시하여
+문제를 해결하였다.
+
+연산자 \texttt{!!}의 경우에는 주어진 수가 주어진 리스트의 인덱스 범위를
+벗어나는 경우가 처리되지 않았다. 이러한 경우에는 적절한 예외를 발생시켜야
+하는데, 아직 예외에 대해서는 다루지 않았으므로 여기서는 무시하고 지나가도록
+한다. 사실 실제로 인덱스 범위를 벗어나는 경우를 시험해보면 (의미는 정확하지
+않더라도) 처리되지 않은 패턴이 있다는 예외가 발생한다.
+\haskell{./src/ch06-ex03.hs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.4}
+\haskell{./src/ch06-ex04.hs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.5}
+\haskell[7]{./src/ch06-ex05.hs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{6.6}
+\begin{itemize}
+\item $sum$
+  \begin{enumerate}
+  \item 타입 정의하기: 일단 단순히 정수의 리스트를 받아서 원소의 합을 내주는
+    함수에서 시작하자. 함수의 타입은 다음과 같다.
+    \[sum~::~[Int]~\rightarrow~Int\]
+  \item 경우를 나열하기: 리스트를 받으므로, 가능한 경우는 빈 리스트인 경우와
+    하나 이상의 원소가 있는 경우이다.
+    \[\begin{array}{lcl}
+      sum~[]       & = & \\
+      sum~(x : xs) & = &
+    \end{array}\]
+  \item 간단한 경우를 정의하기: 우선 빈 리스트가 주어지는 경우를 고려하자. 이
+    때의 합은 $0$으로 한다.
+    \[\begin{array}{lcl}
+      sum~[]       & = & 0 \\
+      sum~(x : xs) & = &
+    \end{array}\]
+  \item 나머지 경우를 정의하기: 원소가 하나 이상인 경우에는, 재귀적으로
+   정의한다. 뒷 리스트의 합을 함수 $sum$을 사용하여 재귀적으로 구하고, 이를 맨
+   앞의 수와 더하면 된다.
+    \[\begin{array}{lcl}
+      sum~[]       & = & 0 \\
+      sum~(x : xs) & = & x + sum~xs
+    \end{array}\]
+  \item 일반화 및 단순화 작업: 앞의 타입 정의에서는 주어진 리스트의 원소가
+    $Int$ 타입이라고 하였으나, 사실 `더할' 수 있는 모든 것은 원소가 될 수
+    있다. 그리고 어떤 타입의 값을 더하 결과 역시 이전 타입과 같다. 결과적으로
+    다음과 같이 리스트 원소 및 결과 타입을 $Num$에 해당하는 타입으로 일반화
+    시킬 수 있다.
+    \[\begin{array}{lcl}
+      sum          & :: & Num~a \Rightarrow a \rightarrow a \\
+      sum~[]       &  = & 0 \\
+      sum~(x : xs) &  = & x + sum~xs
+    \end{array}\]
+  \end{enumerate}
+
+\item $take$
+  \begin{enumerate}
+  \item 타입 정의하기: 가져올 원소의 갯수에 해당하는 정수와 리스트를 받아서
+    가져온 원소가 들어있는 리스트를 내준다. 주어진 리스트와 내놓을
+    리스트의 타입은 같아야 한다. 이를 타입으로 정리하면 다음과 같다.
+    \[take~::~Int~\rightarrow~[a]~\rightarrow~[a]\]
+  \item 경우를 나열하기: 정수와 리스트를 받으므로, 가능한 모든 경우는 정수가
+    $0$,$n+1$인 경우와 리스트가 빈 리스트, 하나 이상의 원소가 있는 경우
+    각각을 짝지은 것이다. 정리하면 다음과 같다.
+    \[\begin{array}{lcl}
+      take~0~[]           & = & \\
+      take~0~(x : xs)     & = & \\
+      take~(n+1)~[]       & = & \\
+      take~(n+1)~(x : xs) & = &
+    \end{array}\]
+  \item 간단한 경우를 정의하기: 주어진 정수가 0인 경우에는 아무것도 가져오지
+    않으므로 결과는 빈 리스트이다. 또한 정수가 0보다 크고 리스트가 빈 리스트인
+    경우에는 더 이상 가져올 것이 없으므로 이 경우 역시 빈 리스트이다.
+    \[\begin{array}{lcl}
+      take~0~[]           & = & [] \\
+      take~0~(x : xs)     & = & [] \\
+      take~(n+1)~[]       & = & [] \\
+      take~(n+1)~(x : xs) & = &
+    \end{array}\]
+  \item 나머지 경우를 정의하기: 정수가 0보다 크고 원소가 하나 이상인 리스트가
+    주어진 경우에는 함수 $take$를 재귀적으로 사용하여, 리스트 꼬리에서 원소를
+    주어진 정수보다 하나 덜 가져온 후, 만들어진 리스트 맨 앞에 주어진 리스트의
+    머리 원소를 붙이면 된다.
+    \[\begin{array}{lcl}
+      take~0~[]           & = & [] \\
+      take~0~(x : xs)     & = & [] \\
+      take~(n+1)~[]       & = & [] \\
+      take~(n+1)~(x : xs) & = & x : take~n~xs
+    \end{array}\]
+  \item 일반화 및 단순화 작업: $Int$ 뿐만 아니라 어떠한 정수라도 리스트에서
+    가져올 원소의 갯수를 나타내는 인자로 쓰일 수 있으므로, 이 인자의 타입을
+    $Integral$에 해당하는 타입으로 더 일반화 시킬 수 있다.
+    \[\begin{array}{lcl}
+      take & :: & Integral~b~\Rightarrow~b~\rightarrow~[a]~\rightarrow~[a]\\
+      take~0~[]           & = & [] \\
+      take~0~(x : xs)     & = & [] \\
+      take~(n+1)~[]       & = & [] \\
+      take~(n+1)~(x : xs) & = & x : take~n~xs
+    \end{array}\]
+    또한 첫 인자가 0일 경우에는 어떠한 리스트가 오더라도 결과가 같으므로
+    아래와 같이 경우의 수를 줄일 수 있다.
+    \[\begin{array}{lcl}
+      take & :: & Integral~b~\Rightarrow~b~\rightarrow~[a]~\rightarrow~[a]\\
+      take~0~\_           & = & [] \\
+      take~(n+1)~[]       & = & [] \\
+      take~(n+1)~(x : xs) & = & x : take~n~xs
+    \end{array}\]
+  \end{enumerate}
+
+\item $last$
+  \begin{enumerate}
+  \item 타입 정의하기: 리스트를 받고 리스트의 마지막 원소를 내준다. 따라서
+    타입은 다음과 같다.
+    \[last~::~[a]~\rightarrow~a\]
+  \item 경우를 나열하기: 리스트를 받으므로, 가능한 경우는 빈 리스트인 경우와
+    하나 이상의 원소가 있는 경우이다. 그런데 빈 리스트는 가능한 입력이 아니므로
+    코드에서 제외한다.
+    \[\begin{array}{lcl}
+      last~(x : xs) & = &
+    \end{array}\]
+  \item 간단한 경우를 정의하기: 제시된 경우는 다시 꼬리 리스트가 빈 리스트인
+    경우와 아닌 경우로 나눌 수 있다. 전자의 경우에는 맨 앞 원소 $x$가 마지막
+    원소이다.
+    \[\begin{array}{lclcl}
+      last~(x : xs) &|& null~xs   & = & x\\
+                    &|& otherwise & = & \\
+    \end{array}\]
+  \item 나머지 경우를 정의하기: 꼬리 리스트가 빈 리스트가 아닌 경우에는 꼬리
+    리스트에서 마지막 원소를 재귀적으로 찾으면 된다.
+    \[\begin{array}{lclcl}
+      last~(x : xs) &|&null~xs   & = & x\\
+                    &|&otherwise & = & last~xs\\
+    \end{array}\]
+  \item 일반화 및 단순화 작업: 앞에서 쓰인 가드를 패턴 매칭으로 바꾸어
+    정리하면 다음과 같다.
+    \[\begin{array}{lcl}
+      last & :: & [a]~\rightarrow~a \\
+      last~[x]      & = & x \\
+      last~(\_ : xs) & = & last~xs \\
+    \end{array}\]
+  \end{enumerate}
+\end{itemize}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "master"
+%%% End: 
