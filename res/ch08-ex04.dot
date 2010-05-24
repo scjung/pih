@@ -1,0 +1,81 @@
+digraph G {
+
+subgraph cluster0 {
+  a1  [ shape=plaintext, label="expr" ];
+  a2  [ shape=plaintext, label="term" ];
+  a3  [ shape=plaintext, label="factor" ];
+  a6  [ shape=plaintext, label="nat" ];
+  a7  [ shape=plaintext, label="2" ];
+  a8  [ shape=plaintext, label="+" ];
+  a9  [ shape=plaintext, label="expr" ];
+  a10 [ shape=plaintext, label="term" ];
+  a11 [ shape=plaintext, label="factor" ];
+  a14 [ shape=plaintext, label="nat" ];
+  a15 [ shape=plaintext, label="3" ];
+
+  a1 -> a2 -> a3 -> a6 -> a7;
+  a1 -> a8;
+  a1 -> a9 -> a10 -> a11 -> a14 -> a15;
+}
+
+subgraph cluster1 {
+  b1  [ shape=plaintext, label="expr" ];
+  b2  [ shape=plaintext, label="term" ];
+  b3  [ shape=plaintext, label="factor" ];
+  b6  [ shape=plaintext, label="nat" ];
+  b7  [ shape=plaintext, label="2" ];
+  b8  [ shape=plaintext, label="*" ];
+  b9  [ shape=plaintext, label="term" ];
+  b10 [ shape=plaintext, label="factor" ];
+  b11 [ shape=plaintext, label="nat" ];
+  b12 [ shape=plaintext, label="3" ];
+  b13 [ shape=plaintext, label="*" ];
+  b14 [ shape=plaintext, label="term" ];
+  b15 [ shape=plaintext, label="factor" ];
+  b16 [ shape=plaintext, label="nat" ];
+  b17 [ shape=plaintext, label="4" ];
+
+  b1 -> b2;
+  b2 -> b3 -> b6 -> b7;
+  b2 -> b8;
+  b2 -> b9 -> b10 -> b11 -> b12;
+  b9 -> b13;
+  b9 -> b14 -> b15 -> b16 -> b17;
+}
+
+subgraph cluster2 {
+  c1  [ shape=plaintext, label="expr" ];
+  c2  [ shape=plaintext, label="term" ];
+  c3  [ shape=plaintext, label="factor" ];
+  c4  [ shape=plaintext, label="(" ];
+  c5  [ shape=plaintext, label="expr" ];
+  c6  [ shape=plaintext, label="term" ];
+  c7  [ shape=plaintext, label="factor" ];
+  c8  [ shape=plaintext, label="nat" ];
+  c9  [ shape=plaintext, label="2" ];
+  c10 [ shape=plaintext, label="+" ];
+  c11 [ shape=plaintext, label="expr" ];
+  c12 [ shape=plaintext, label="term" ];
+  c13 [ shape=plaintext, label="factor" ];
+  c14 [ shape=plaintext, label="nat" ];
+  c15 [ shape=plaintext, label="3" ];
+  c16 [ shape=plaintext, label=")" ];
+  c17 [ shape=plaintext, label="+" ];
+  c18 [ shape=plaintext, label="expr" ];
+  c19 [ shape=plaintext, label="term" ];
+  c20 [ shape=plaintext, label="factor" ];
+  c21 [ shape=plaintext, label="nat" ];
+  c22 [ shape=plaintext, label="4" ];
+
+  c1 -> c2 -> c3;
+  c3 -> c4;
+  c3 -> c5;
+  c5 -> c6 -> c7 -> c8 -> c9;
+  c5 -> c10;
+  c5 -> c11 -> c12 -> c13 -> c14 -> c15;
+  c3 -> c16;
+  c1 -> c17;
+  c1 -> c18 -> c19 -> c20 -> c21 -> c22;
+}
+
+}

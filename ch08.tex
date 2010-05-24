@@ -1,0 +1,113 @@
+\chapter{\Large{Functional parsers}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.1}
+\haskellpart{./src/ch08-ex01.hs}{55}{59}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.2}
+\haskellpart{./src/ch08-ex02.hs}{43}{49}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.3}
+그림 \ref{fig:ex83}은 제시된 표현식에서 가능한 두 가지의 파스 트리를 도식화한
+것이다. 이렇게 여러 파스 트리가 가능한 이유는 $+$ 연산자가 어느 방향으로
+결합되는지를 정하지 않았기 때문이다.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.8\textwidth]{ch08-ex03}
+  \caption{$2+3+4$에 대한 두 가지 파스 트리}
+  \label{fig:ex83}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.4}
+그림 \ref{fig:ex84}은 제시된 표현식 각각에 해당하는 파스 트리를 도식화한 것이다.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\textwidth]{ch08-ex04}
+  \caption{$2+3+4$, $2 * 3 * 4$, $(2+3)+4$에 대한 파스 트리}
+  \label{fig:ex84}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.5}
+마지막 단순화 작업 바로 전의 파서로 수 하나를 파싱한다고 가정해보자. 이 때는
+다음과 같은 순서로 파싱이 진행된다. 우선 $expr$의 첫번째 경우, $term+expr$로
+파싱을 시도한다. 처음에는 이 문법의 첫번째 항 $term$이 파싱되고, 이어서 두번째
+항 $+$를 파싱하게 되는데, 이 때는 이미 입력이 모두 처리된 상태이므로 파싱은
+실패하게 된다. 연이어 $expr$의 두번째 경우 $term$을 시도하며, 이 때는 파싱이
+성공하게 된다. 이러한 순서를 자세히 살펴보면, 수 하나 전체가 첫번째 경우와
+두번째 경우의 $term$에 의해 중복되어 파싱됨을 알 수 있다.
+
+이에 반해, 단순화 작업을 거친 문법에 대해 수 하나를 파싱하는 경우에는 중복
+작업이 발생하지 않는다. 이 때는 $expr$ 문법의 처음 항 $term$에 의해
+주어진 수 전체가 파싱된 후, 다음 항이 무시되면서 전체 파싱이 끝나기
+때문이다. 즉, 중복된 항을 하나로 합침으로서 파싱이 실패하였을 때 다시 반복하는
+경우가 줄어들게 되고, 이에 따라 파서의 성능이 향상되게 된다.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.6}
+\haskellpart{./src/ch08-ex06.hs}{91}{109}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.7}
+다음과 같이 문법을 확장한다.
+
+\[\begin{array}{lcl}
+  expr     & ::= & term~(+~expr~|~-~expr~|~\epsilon) \\
+  term     & ::= & exponent~(*~expr~|~/~expr~|~\epsilon) \\
+  exponent & ::= & (exponent~\uparrow~|~\epsilon)~factor \\
+  factor   & ::= & (expr) ~|~ nat \\
+  nat      & ::= & 0 ~|~ 1 ~|~ 2 ~|~ \cdots
+\end{array}\]
+
+이에 따라 앞에서 작성한 프로그램을 다음과 같이 수정한다.
+\haskellpart{./src/ch08-ex07.hs}{101}{116}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{8.8}
+\renewcommand{\theenumi}{\alph{enumi}}
+\renewcommand{\labelenumi}{(\theenumi)}
+\begin{enumerate}
+\item 문법은 다음과 같이 정의할 수 있다.
+  \[\begin{array}{lcl}
+    expr     & ::= & expr~-~nat ~|~ nat \\
+    nat      & ::= & 0 ~|~ 1 ~|~ 2 ~|~ \cdots
+  \end{array}\]
+\item 앞의 문법을 그대로 코드로 나타내면 다음과 같다.
+  \begin{lstlisting}[language=Haskell]
+expr :: Parser Int
+expr  = do e <- expr
+           symbol "-"
+           n <- natural
+           return (e - n)
+          +++ natural
+  \end{lstlisting}
+\item 이 프로그램은 $expr$을 파싱할 시 맨 처음에 $expr$ 파서를 사용하기
+  때문에, 결국에는 무한한 재귀호출이 일어나게 된다.
+\item $expr$ 문법을 다시 생각해보면, 결국에는 `$nat~-$' 형태가 없거나 한 번 이상
+  나온 뒤 $nat$으로 끝나는 것과 같다. 따라서 `$nat~-$' 형태에 대한 파서를 따로
+  만들고, 그 파서를 $many$로 감싼 후 파싱하면 간단히 구현할 수 있다. 이렇게
+  되면 파싱 결과는 정수의 리스트가 되므로, 최종 계산 결과는 $foldl$을 사용하여
+  얻어낼 수 있다. (리스트에는 계산식의 수가 거꾸로 들어있게 됨을 유의)
+  \begin{lstlisting}[language=Haskell]
+expr :: Parser Int
+expr  = do es <- many expr1
+           n <- natural
+           case es of
+             [] -> return n
+             h : t -> return (foldl (-) h (n : t))
+
+expr1 :: Parser Int
+expr1  = do e <- natural
+            symbol "-"
+            return e
+  \end{lstlisting}
+\end{enumerate}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "master"
+%%% End: 

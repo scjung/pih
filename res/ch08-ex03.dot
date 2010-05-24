@@ -1,0 +1,61 @@
+digraph G {
+
+subgraph cluster0 {
+  a1  [ shape=plaintext, label="expr" ];
+  a2  [ shape=plaintext, label="expr" ];
+  a3  [ shape=plaintext, label="expr" ];
+  a4  [ shape=plaintext, label="term" ];
+  a5  [ shape=plaintext, label="factor" ];
+  a6  [ shape=plaintext, label="nat" ];
+  a7  [ shape=plaintext, label="2" ];
+  a8  [ shape=plaintext, label="+" ];
+  a9  [ shape=plaintext, label="expr" ];
+  a10  [ shape=plaintext, label="term" ];
+  a11  [ shape=plaintext, label="factor" ];
+  a12  [ shape=plaintext, label="nat" ];
+  a13  [ shape=plaintext, label="3" ];
+  a14  [ shape=plaintext, label="+" ];
+  a15 [ shape=plaintext, label="expr" ];
+  a16  [ shape=plaintext, label="term" ];
+  a17  [ shape=plaintext, label="factor" ];
+  a18  [ shape=plaintext, label="nat" ];
+  a19  [ shape=plaintext, label="4" ];
+
+  a1 -> a2 -> a3 -> a4 -> a5 -> a6 -> a7;
+  a2 -> a8;
+  a2 -> a9 -> a10 -> a11 -> a12 -> a13;
+  a1 -> a14;
+  a1 -> a15 -> a16 -> a17 -> a18 -> a19;
+}
+
+subgraph cluster1 {
+  b1  [ shape=plaintext, label="expr" ];
+  b2  [ shape=plaintext, label="expr" ];
+  b3  [ shape=plaintext, label="term" ];
+  b4  [ shape=plaintext, label="factor" ];
+  b5  [ shape=plaintext, label="nat" ];
+  b6  [ shape=plaintext, label="2" ];
+  b7  [ shape=plaintext, label="+" ];
+  b8  [ shape=plaintext, label="expr" ];
+  b9  [ shape=plaintext, label="expr" ];
+  b10  [ shape=plaintext, label="term" ];
+  b11  [ shape=plaintext, label="factor" ];
+  b12  [ shape=plaintext, label="nat" ];
+  b13  [ shape=plaintext, label="3" ];
+  b14  [ shape=plaintext, label="+" ];
+  b15  [ shape=plaintext, label="expr" ];
+  b16  [ shape=plaintext, label="term" ];
+  b17  [ shape=plaintext, label="factor" ];
+  b18  [ shape=plaintext, label="nat" ];
+  b19  [ shape=plaintext, label="4" ];
+
+  b1 -> b2 -> b3 -> b4 -> b5 -> b6;
+  b1 -> b7;
+  b1 -> b8;
+  b8 -> b9 -> b10 -> b11 -> b12 -> b13;
+  b8 -> b14;
+  b8 -> b15 -> b16 -> b17 -> b18 -> b19;
+}
+
+}
+
