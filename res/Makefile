@@ -1,12 +1,12 @@
 DOTS = $(wildcard *.dot)
-PNGS = $(DOTS:.dot=.png)
+PDFS = $(DOTS:.dot=.pdf)
 
-%.png: %.dot
-	dot -Tpng $< -o $@
+%.pdf: %.dot
+	dot -Tpdf $< -o $@
 
-all: $(PNGS)
+all: $(PDFS)
 
 clean:
-	rm -rf $(PNGS)
+	rm -rf $(PDFS)
 
 .PHONY: all clean
