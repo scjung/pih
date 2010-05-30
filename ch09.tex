@@ -81,15 +81,36 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \exercise{9.4}
+\haskell[42]{./src/ch09-ex04.hs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \exercise{9.5}
 
+\GTK\footnote{\URL{http://www.gtk.org/}} 용 UI 디자인 프로그램인
+\textsf{Glade}\footnote{\URL{http://glade.gnome.org/}}와 \HASKELL에서 \GTK를
+사용할 수 있도록 해주는
+\textsf{Gtk2Hs}\footnote{\URL{http://www.haskell.org/gtk2hs/}}를 사용하면
+쉽게 GUI를 구현할 수 있다. 다음 디렉토리에 있는 코드를 참고하기 바란다.
+
+\begin{itemize}
+\item \texttt{src/ch09-ex05-calc}
+\item \texttt{src/ch09-ex05-life}
+\end{itemize}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \exercise{9.6}
 
+다음은 구현된 Nim 게임 프로그램이다. 프로그램을 수행하면 커서가 첫 행 맨 앞에
+위치하게 되는데, 여기서 \texttt{w},\texttt{s}키로 커서를 이동한 후
+\texttt{Enter}키를 누르면 별을 뽑고자 하는 행을 선택할 수 있다. 그리고서
+\texttt{a}, \texttt{d}키로 뽑고자 하는 별의 갯수를 정한 후 \texttt{Enter}키로
+선택하면 다음 플레이어의 턴으로 넘어가게 된다.
+
+\haskell[26]{./src/ch09-ex06.hs}
 
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "master"
 %%% End: 
+      
