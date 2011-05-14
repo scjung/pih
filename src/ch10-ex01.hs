@@ -1,3 +1,5 @@
+{-# LANGUAGE NPlusKPatterns #-}
+
 data Nat = Zero | Succ Nat
 
 instance Show Nat where

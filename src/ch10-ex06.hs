@@ -1,3 +1,5 @@
+{-# LANGUAGE NPlusKPatterns #-}
+
 import Data.Char
 
 type Assoc k v = [(k, v)]

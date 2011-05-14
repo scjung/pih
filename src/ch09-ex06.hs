@@ -1,6 +1,4 @@
 {-# LANGUAGE NPlusKPatterns #-}
-    -- From 7.0.1, GHC defaults to the Haskell 2010 language standard
-    -- that disallows `n+k' patterns.
 
 import System.IO -- To define `getCh'
 
