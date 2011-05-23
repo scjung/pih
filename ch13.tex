@@ -1,0 +1,342 @@
+\chapter{\Large{Reasoning About Programs}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.1}
+
+예를 들어 함수 $null$을 다음과 같이 패턴이 \KOEN{겹치도록}{overlapping} 정의할
+수 있다.
+
+\begin{equation*}
+\begin{array}{lcl}
+  null ~[] & = & True \\
+  null ~\_ & = & False \\
+\end{array}
+\end{equation*}
+
+정의된 두번째 패턴의 인자는, 이전 패턴을 고려해야만 반드시 빈 리스트가 아님을
+알 수 있다.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.2}
+% add n (Succ m) = Succ (add n m)
+\begin{itemize}
+% add Zero (Succ m) = Succ (add Zero m)
+\item \KOEN{기초증명}{base case}
+  \begin{align*}
+      & add ~Zero ~(Succ ~m) \\
+    = &     \quad \CMT{$add$ 적용} \\
+      & Succ ~m \\
+    = &     \quad \CMT{$m$에 $add$를 \KOEN{역적용}{unapplying}} \\
+      & Succ ~(Add ~Zero ~m) \\
+  \end{align*}
+
+% add (Succ n) (Succ m) = Succ (add (Succ n) m)
+\item \KOEN{귀납증명}{induction case}
+  \begin{align*}
+      & add ~(Succ ~n) ~(Succ ~m) \\
+    = &     \quad \CMT{$add$ 적용} \\
+      & Succ ~(add ~n ~(Succ ~m)) \\
+    = &     \quad \CMT{\KOEN{귀납가정}{induction hypothesis} 적용} \\
+      & Succ ~(Succ ~(add ~n ~m)) \\
+    = &     \quad \CMT{$add$ 역적용} \\
+      & Succ ~(add ~(Succ ~n) ~m)
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.3}
+% add n m = add m n     with add n Zero = n
+\begin{itemize}
+\item 기초증명
+  % add Zero m = add m Zero
+  \begin{align*}
+      & add ~Zero ~m \\
+    = &     \quad \CMT{$add$ 적용} \\
+      & m \\
+    = &     \quad \CMT{주어진 성질 적용} \\
+      & add ~m ~Zero
+  \end{align*}
+
+\item 귀납증명
+  % add (Succ n) m = add m (Succ n)
+  \begin{align*}
+      & add ~(Succ ~n) ~m \\
+    = &     \quad \CMT{$add$ 적용} \\
+      & Succ ~(add ~n ~m) \\
+    = &     \quad \CMT{귀납가정 적용} \\
+      & Succ ~(add ~m ~n) \\
+    = &     \quad \CMT{\textbf{13.2} 성질 적용} \\
+      & add ~m ~(Succ ~n)
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.4}
+% replicate 0 _     = []
+% replicate (n+1) x = x : replicate n x
+\begin{itemize}
+\item 기초증명
+  % all (== x) (replicate 0 x) = True
+  \begin{align*}
+      & all ~(== ~x) ~(replicate ~0 ~x) \\
+    = &     \quad \CMT{$replicate$ 적용} \\
+      & all ~(== ~x) ~[] \\
+    = &     \quad \CMT{$all$ 적용} \\
+      & True
+  \end{align*}
+\item 귀납증명
+  % all (== x) (replicate (n+1) x) = True
+  \begin{align*}
+      & all ~(== ~x) ~(replicate ~(n+1) ~x) \\
+    = &     \quad \CMT{$replicate$ 적용} \\
+      & all ~(== ~x) ~(x ~: ~replicate ~n ~x) \\
+    = &     \quad \CMT{$all$ 적용} \\
+      & (x == x) \wedge (all ~(== ~x) ~(replicate ~n ~x)) \\
+    = &     \quad \CMT{$==$ 적용} \\
+      & True \wedge (all ~(== ~x) ~(replicate ~n ~x)) \\
+    = &     \quad \CMT{귀납가정 적용} \\
+      & True \wedge True \\
+    = &     \quad \CMT{$\wedge$ 적용} \\
+      & True
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.5}
+\begin{itemize}
+\item $xs \LAPP [] ~= ~xs$
+  \begin{itemize}
+  \item 기초증명
+    % [] ++ [] = []
+    \begin{align*}
+        & [] ~\LAPP ~[] \\
+      =~&     \quad \CMT{$\LAPP$ 적용} \\
+        & []
+    \end{align*}
+  \item 귀납증명
+    % (x : xs) ++ [] = (x : xs)
+    \begin{align*}
+        & (x : xs) ~\LAPP ~[] \\
+      =~&     \quad \CMT{$\LAPP$ 적용} \\
+        & x : (xs ~\LAPP ~[]) \\
+      =~&     \quad \CMT{귀납가정 적용} \\
+        & x : xs
+    \end{align*}
+  \end{itemize}
+\item $xs ~\LAPP ~(ys ~\LAPP ~zs) ~= ~(xs ~\LAPP ~ys) ~\LAPP ~zs$
+  \begin{itemize}
+  \item 기초증명
+    % [] ++ (ys ++ zs) = ([] ++ ys) ++ zs
+    \begin{align*}
+        & [] ~\LAPP ~(ys ~\LAPP ~zs) \\
+      =~&     \quad \CMT{$\LAPP$ 적용} \\
+        & ys ~\LAPP ~zs \\
+      =~&     \quad \CMT{$\LAPP$ 첫번째 경우를 역적용} \\
+        & ([] ~\LAPP ~ys) ~\LAPP ~zs
+    \end{align*}
+  \item 귀납증명
+    % (x : xs) ++ (ys ++ zs) = ((x : xs) ++ ys) ++ zs
+    \begin{align*}
+        & (x ~: ~xs) ~\LAPP ~(ys ~\LAPP ~zs) \\
+      =~&     \quad \CMT{$\LAPP$ 적용} \\
+        & x ~: ~(xs ~\LAPP ~(ys ~\LAPP ~zs)) \\
+      =~&     \quad \CMT{귀납가정 적용} \\
+        & x ~: ~((xs ~\LAPP ~ys) ~\LAPP ~zs) \\
+      =~&     \quad \CMT{$\LAPP$ 두번째 경우를 역적용} \\
+        & (x ~: (xs ~\LAPP ~ys)) ~\LAPP ~zs \\
+      =~&     \quad \CMT{$\LAPP$ 두번째 경우를 역적용} \\
+        & ((x ~: ~xs) ~\LAPP ~ys) ~\LAPP ~zs \\
+    \end{align*}
+  \end{itemize}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.6}
+문제에서 주어진 \KOEN{보조결과}{auxilary result}는 증명하고자 하는 정의에만
+국한되어 쓰이는 성질이다. 반면에 이전에 사용한 보조결과는 좀 더 일반적인
+성질로서, 다른 성질을 증명하는데에도 유용하게 쓰일 수 있다.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.7}
+% map f []     = []
+% map f (x:xs) = f x : map f xs
+% (f . g) x    = f (g x)
+
+% map f (map g xs) = map (f . g) xs
+\begin{itemize}
+\item 기초증명
+  % map f (map g []) = map (f . g) []
+  \begin{align*}
+      & map ~f ~(map ~g ~[]) \\
+    =~&     \quad \CMT{$map$ 적용} \\
+      & map ~f ~[] \\
+    =~&     \quad \CMT{$map$ 적용} \\
+      & [] \\
+    =~&     \quad \CMT{$map$ 첫번째 경우를 역적용} \\
+      & map ~(f \circ g) ~[]
+  \end{align*}
+
+\item 귀납증명
+  % map f (map g (x : xs)) = map (f . g) (x : xs)
+  \begin{align*}
+      & map ~f ~(map ~g ~(x ~: xs)) \\
+    =~&     \quad \CMT{$map$ 적용} \\
+      & map ~f ~(g ~x ~: ~map ~g ~xs) \\
+    =~&     \quad \CMT{$map$ 적용} \\
+      & f ~(g ~x) ~: ~map ~f ~(map ~g ~xs) \\
+    =~&     \quad \CMT{귀납가정 적용} \\
+      & f ~(g ~x) ~: ~map ~(f \circ g) ~xs \\
+    =~&     \quad \CMT{$\circ$ 역적용} \\
+      & (f \circ g) ~x ~: ~map ~(f \circ g) ~xs \\
+    =~&     \quad \CMT{$map$ 역적용} \\
+      & map ~(f \circ g) ~(x ~: ~xs)
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.8}
+\begin{itemize}
+\item $n$에 대한 기초증명
+  % take 0 xs ++ drop 0 xs = xs
+  \begin{align*}
+      & take ~0 ~xs ~\LAPP ~drop ~0 ~xs \\
+    =~&     \quad \CMT{$take$ 적용} \\
+      & [] ~\LAPP ~drop ~0 ~xs \\
+    =~&     \quad \CMT{$drop$ 적용} \\
+      & [] ~\LAPP ~[] \\
+    =~&     \quad \CMT{$\LAPP$ 적용} \\
+      & []
+  \end{align*}
+\item $xs$에 대한 기초증명
+  % take n [] ++ drop n [] = []
+  \begin{align*}
+      & take ~n ~[] ~\LAPP ~drop ~n ~[] \\
+    =~&     \quad \CMT{$take$ 적용} \\
+      & [] ~\LAPP ~drop ~n ~[] \\
+    =~&     \quad \CMT{$drop$ 적용} \\
+      & [] ~\LAPP ~[] \\
+    =~&     \quad \CMT{$\LAPP$ 적용} \\
+      & []
+  \end{align*}
+\item 귀납증명
+  % take (n + 1) (x : xs) ++ drop (n + 1) (x : xs) = x : xs
+  \begin{align*}
+      & take ~(n+1) ~(x:xs) ~\LAPP ~drop ~(n+1) ~(x:xs) \\
+    =~&     \quad \CMT{$take$ 적용} \\
+      & (x:take ~n ~xs) ~\LAPP ~drop ~(n+1) ~(x:xs) \\
+    =~&     \quad \CMT{$drop$ 적용} \\
+      & (x:take ~n ~xs) ~\LAPP ~drop ~n ~xs \\
+    =~&     \quad \CMT{$\LAPP$ 적용} \\
+      & x : (take ~n ~xs ~\LAPP ~drop ~n ~xs) \\
+    =~&     \quad \CMT{귀납가정 적용} \\
+      & x : xs
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.9}
+우선 다음과 같이 주어진 \KOEN{트리}{Tree}의 \KOEN{잎새}{leaf} 수를 세는 함수를
+작성한다.
+\begin{equation*}
+  \begin{array}{lcl}
+    leaves ~(Leaf ~\_)   &=& 1 \\
+    leaves ~(Node ~l ~r) &=& leaves ~l + leaves ~r \\
+  \end{array}
+\end{equation*}
+
+그리고 주어진 트리의 \KOEN{노드}{node} 수를 세는 함수도 작성한다.
+\begin{equation*}
+  \begin{array}{lcl}
+    nodes ~(Leaf ~\_)   &=& 0 \\
+    nodes ~(Node ~l ~r) &=& 1 + nodes ~l + nodes ~r \\
+  \end{array}
+\end{equation*}
+
+이제 이렇게 정의된 함수를 바탕으로 `항상 트리 내 잎새는 노드보다 1만큼 더
+많다'를 증명할 것이다. 증명할 명제를 수식으로 나타내면 다음과 같다.
+\begin{equation*}
+  nodes ~t + 1 = leaves ~t
+\end{equation*}
+
+증명은 다음과 같다.
+\begin{itemize}
+\item 기초증명
+  % nodes (Leaf n) + 1 = leaves (Leaf n)
+  \begin{align*}
+      & nodes ~(Leaf ~n) + 1\\
+    =~&     \quad \CMT{$nodes$ 적용} \\
+      & 0 + 1 \\
+    =~&     \quad \CMT{$leaves$ 첫번째 경우를 역적용} \\
+      & 0 + leaves ~(Leaf n) \\
+    =~&     \quad \CMT{$+$ 적용} \\
+      & leaves ~(Leaf n)
+  \end{align*}
+\item 귀납증명
+  % nodes (Node l r) + 1 = leaves (Node l r)
+  \begin{align*}
+      & nodes ~(Node ~l ~r) + 1\\
+    =~&     \quad \CMT{$nodes$ 적용} \\
+      & (1 + nodes ~l + nodes ~r) + 1 \\
+    =~&     \quad \CMT{식 정렬} \\
+      & (nodes ~l + 1) + (nodes ~r + 1) \\
+    =~&     \quad \CMT{귀납가정 적용} \\
+      & leaves ~l + leaves ~r \\
+    =~&     \quad \CMT{$leaves$ 두번째 경우를 역적용} \\
+      & leaves ~(Node ~l ~r) \\
+  \end{align*}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\exercise{13.10}
+% comp' e c = comp e ++ c
+\begin{itemize}
+\item 기초증명
+  % comp' (Val n) c = comp (Val n) ++ c
+  \begin{align*}
+      & comp' ~(Val ~n) ~c\\
+    =~&     \quad \CMT{$comp'$ \KOEN{명세}{specification}} \\
+      & comp ~(Val ~n) ~\LAPP~ c \\
+    =~&     \quad \CMT{$comp$ 적용} \\
+      & [PUSH ~n] ~\LAPP~ c \\
+    =~&     \quad \CMT{$\LAPP$ 적용} \\
+      & PUSH ~n : c
+  \end{align*}
+\item 귀납증명
+  % comp' (Add x y) c = comp (Add x y) ++ c
+  \begin{align*}
+      & comp' ~(Add ~x ~y) ~c\\
+    =~&     \quad \CMT{$comp'$ 명세} \\
+      & comp ~(Add ~x ~y) ~\LAPP~ c \\
+    =~&     \quad \CMT{$comp$ 적용} \\
+      & (comp ~x ~\LAPP ~comp ~y ~\LAPP~ [ADD]) ~\LAPP~ c \\
+    =~&     \quad \CMT{$\LAPP$ 적용} \\
+      & comp ~x ~\LAPP ~comp ~y ~\LAPP~ (ADD : c) \\
+    =~&     \quad \CMT{귀납가정 적용} \\
+      & comp ~x ~\LAPP ~comp' ~y ~(ADD : c) \\
+    =~&     \quad \CMT{귀납가정 적용} \\
+      & comp' ~x ~(comp' ~y ~(ADD : c)) \\
+  \end{align*}
+\end{itemize}
+
+즉, $comp'$는 다음과 같이 정의할 수 있다.
+\begin{equation*}
+  \begin{array}{lcl}
+    comp' ~(Val ~n) ~c    &=& PUSH ~n : c \\
+    comp' ~(Add ~x ~y) ~c &=& comp' ~x ~(comp' ~y ~(ADD : c)) \\
+  \end{array}
+\end{equation*}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "master"
+%%% End: 
